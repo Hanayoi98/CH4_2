@@ -1,0 +1,65 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Blueprint/UserWidget.h"
+#include "CXUI.generated.h"
+
+/**
+ *  Simple Vehicle HUD class
+ *  Displays the current speed and gear.
+ *  Widget setup is handled in a Blueprint subclass.
+ */
+UCLASS(abstract)
+class CX_API UCXUI : public UUserWidget
+{
+	GENERATED_BODY()
+	
+protected:
+
+	/** Controls the display of speed in Km/h or MPH */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Vehicle)
+	bool bIsMPH = false;
+
+public:
+
+	/** Called to update the speed display */
+	void UpdateSpeed(float NewSpeed);
+
+	/** Called to update the gear display */
+	void UpdateGear(int32 NewGear);
+
+	/** 코인 표시 */
+	void UpdateCoins(int32 NewCoins);
+
+	/** 추가 최대 속도 표시 */
+	void UpdateBonusSpeed(float NewBonusSpeed);
+
+	void UpdateTime(int32 NewTime);
+	void UpdateStatus(const FText& NewStatus);
+	void ShowResult(const FText& NewResult);
+
+protected:
+
+	/** Implemented in Blueprint to display the new speed */
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnSpeedUpdate(float NewSpeed);
+
+	/** Implemented in Blueprint to display the new gear */
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnGearUpdate(int32 NewGear);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnCoinsUpdate(int32 NewCoins);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnBonusSpeedUpdate(float NewBonusSpeed);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnTimeUpdate(int32 NewTime);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnStatusUpdate(const FText& NewStatus);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = Vehicle)
+	void OnResultUpdate(const FText& NewResult);
+};

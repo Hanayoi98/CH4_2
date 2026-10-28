@@ -1,0 +1,48 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/GameModeBase.h"
+#include "CXGameMode.generated.h"
+
+class ACXGameState;
+
+UCLASS(MinimalAPI)
+class ACXGameMode : public AGameModeBase
+{
+	GENERATED_BODY()
+
+public:
+	ACXGameMode();
+
+protected:
+	virtual void BeginPlay() override;
+	virtual void PostLogin(APlayerController* NewPlayer) override;
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+
+private:
+	bool IsPlayerStartAvailable(const APlayerStart* PlayerStart) const;
+
+	void TickCountdown();
+	void FinishGame(ACXGameState* CXGameState);
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	FVector VehicleSpawnCheckHalfExtent = FVector(250.0, 120.0, 80.0);
+
+	UPROPERTY(EditDefaultsOnly)
+	FVector VehicleSpawnCheckOffset = FVector(0.0, 0.0, 80.0);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Game")
+	int32 WaitingTime = 10;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Game")
+	int32 PlayTime = 60;
+
+	FTimerHandle CountdownTimer;
+
+	bool bCountdownStarted = false;
+
+};
+
+
+
